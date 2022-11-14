@@ -147,8 +147,8 @@ uint8_t hts221_init(void)
 
 	//acc device init
 	uint8_t ctrl1 = hts221_read_byte(HTS221_ADDRESS_CTRL1);
-	ctrl1 &= ~0x07;
-	ctrl1 &= ~0x80;
+	ctrl1 &= 0x80;
+	ctrl1 |= 0xF8;
 	ctrl1 |= 0x01;
 	hts221_write_byte(HTS221_ADDRESS_CTRL1, ctrl1);
 
