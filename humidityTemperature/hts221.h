@@ -23,8 +23,20 @@
 #define 	HTS221_ADDRESS_HUM_L				0x28
 #define 	HTS221_ADDRESS_HUM_H				0x29
 
-#define 	HTS221_ADDRESS_TEMP_L				0x2A
-#define 	HTS221_ADDRESS_TEMP_H				0x2B
+#define 	HTS221_ADDRESS_T_L				0x2A
+#define 	HTS221_ADDRESS_T_H				0x2B
+
+#define 	HTS221_ADDRESS_H0_T0_L				0x3C
+#define 	HTS221_ADDRESS_H0_T0_H				0x3D
+
+#define 	HTS221_ADDRESS_H1_T0_L				0x3A
+#define 	HTS221_ADDRESS_H1_T0_H				0x3B
+
+#define 	HTS221_ADDRESS_T0_L				0x3C
+#define 	HTS221_ADDRESS_T0_H				0x3D
+
+#define 	HTS221_ADDRESS_T1_L				0x3E
+#define 	HTS221_ADDRESS_T1_H				0x3F
 
 
 //#define 	HTS221_ADDRESS_TEMP_L					0x20
