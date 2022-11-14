@@ -94,17 +94,18 @@ float hts221_get_temperature(void)
 
 	uint8_t T_msb=hts221_read_byte(HTS221_ADDRESS_T0_T1_call_msb);
 	uint8_t T0_msb=T_msb & 0x3;
-	uint8_t T1_msb=T_msb & 0x3<<2;
+	uint8_t T1_msb=T_msb>>2 & 0x3;
 
 
 	T0_degC |= T0_msb<<8;
-	T1_degC |= T1_msb<<9;
+	T1_degC |= T1_msb<<8;
 
 	float deltaY=T1_degC-T0_degC;
 	float deltaX=T1_out-T0_out;
+
 	float k=deltaY/deltaX;
 	//q=y-kx
-	float q=T0_out-k*T0_degC;
+	float q=T0_degC-k*T0_out;
 	//y=kx+q
 	float temperatureCalc=k*T_out+q;
 	temperatureCalc=temperatureCalc/8;

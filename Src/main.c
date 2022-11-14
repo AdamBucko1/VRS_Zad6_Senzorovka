@@ -58,7 +58,7 @@ int main(void)
 	  //os			   x      y        z
 	  temperaturePRINT = hts221_get_temperature();
 	  memset(formated_text, '\0', sizeof(formated_text));
-	  sprintf(formated_text, "%0.4f,%0.4f,%0.4f\r", temperaturePRINT);
+	  sprintf(formated_text, "%0.4f\r", temperaturePRINT);
 	  USART2_PutBuffer((uint8_t*)formated_text, strlen(formated_text));
 	  LL_mDelay(10);
   }
