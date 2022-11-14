@@ -31,7 +31,7 @@ void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 int8_t hts221_get_temp()
 {
 	uint8_t temp[2];
-	hts221_readArray(temp, HTS221_ADDRESS_TEMP_L, 2);
+	hts221_readArray(temp, HTS221_ADDRESS_T_L, 2);
 
 	return (((int16_t)((temp[1] << 8) | temp[0])) >> 3)  + 25;
 }
@@ -61,8 +61,54 @@ int8_t hts221_get_temp()
 	*z = (zz >> 4) / 1000.0f;
 }*/
 
-void hts221_get_temperature(void)
+float hts221_get_temperature(void)
 {
+	uint8_t T0_outArray[2];
+	T0_outArray[0]=hts221_read_byte(HTS221_ADDRESS_T0_L);
+	T0_outArray[1]=hts221_read_byte(HTS221_ADDRESS_T0_H);
+	int16_t T0_out = T0_outArray[0]|T0_outArray[1]<< 8;
+
+	uint8_t T1_outArray[2];
+	T1_outArray[0]=hts221_read_byte(HTS221_ADDRESS_T1_L);
+	T1_outArray[1]=hts221_read_byte(HTS221_ADDRESS_T1_H);
+	int16_t T1_out = T1_outArray[0]|T1_outArray[1]<< 8;
+
+	uint8_t T_outArray[2];
+	T_outArray[0]=hts221_read_byte(HTS221_ADDRESS_T_L);
+	T_outArray[1]=hts221_read_byte(HTS221_ADDRESS_T_H);
+	int16_t T_out = T_outArray[0]|T_outArray[1]<< 8;
+
+	uint8_t H0_T0_outArray[2];
+	H0_T0_outArray[0]=hts221_read_byte(HTS221_ADDRESS_H0_T0_L);
+	H0_T0_outArray[1]=hts221_read_byte(HTS221_ADDRESS_H0_T0_H);
+	int16_t H0_T0_out = H0_T0_outArray[0]|H0_T0_outArray[1]<< 8;
+
+	uint8_t H1_T0_outArray[2];
+	H1_T0_outArray[0]=hts221_read_byte(HTS221_ADDRESS_H1_T0_L);
+	H1_T0_outArray[1]=hts221_read_byte(HTS221_ADDRESS_H1_T0_H);
+	int16_t H1_T0_out = H1_T0_outArray[0]|H1_T0_outArray[1]<< 8;
+
+
+	uint16_t T0_degC=hts221_read_byte(HTS221_ADDRESS_T0_degC);
+	uint16_t T1_degC=hts221_read_byte(HTS221_ADDRESS_T1_degC);
+
+	uint8_t T_msb=hts221_read_byte(HTS221_ADDRESS_T0_T1_call_msb);
+	uint8_t T0_msb=T_msb & 0x3;
+	uint8_t T1_msb=T_msb & 0x3<<2;
+
+
+	T0_degC |= T0_msb<<8;
+	T1_degC |= T1_msb<<9;
+
+	float deltaY=T1_degC-T0_degC;
+	float deltaX=T1_out-T0_out;
+	float k=deltaY/deltaX;
+	//q=y-kx
+	float q=T0_out-k*T0_degC;
+	//y=kx+q
+	float temperatureCalc=k*T_out+q;
+	temperatureCalc=temperatureCalc/8;
+	return temperatureCalc;
 
 	}
 
