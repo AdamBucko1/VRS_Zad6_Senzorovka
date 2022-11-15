@@ -8,7 +8,7 @@
 #include "main.h"
 #include "i2c.h"
 
-
+//*******************TEMPERATURE********************
 #define 	HTS221_DEVICE_ADDRESS_0				0xBE
 #define 	HTS221_DEVICE_ADDRESS_1				0xBF
 
@@ -17,20 +17,8 @@
 
 #define 	HTS221_ADDRESS_CTRL1				0x20
 
-//#define 	HTS221_ADDRESS_ACCX					0x28
-//#define 	HTS221_ADDRESS_ACCY					0x2A
-//#define 	HTS221_ADDRESS_ACCZ					0x2C
-#define 	HTS221_ADDRESS_HUM_L				0x28
-#define 	HTS221_ADDRESS_HUM_H				0x29
-
 #define 	HTS221_ADDRESS_T_L					0x2A
 #define 	HTS221_ADDRESS_T_H					0x2B
-
-#define 	HTS221_ADDRESS_H0_T0_L				0x3C
-#define 	HTS221_ADDRESS_H0_T0_H				0x3D
-
-#define 	HTS221_ADDRESS_H1_T0_L				0x3A
-#define 	HTS221_ADDRESS_H1_T0_H				0x3B
 
 #define 	HTS221_ADDRESS_T0_L					0x3C
 #define 	HTS221_ADDRESS_T0_H					0x3D
@@ -43,8 +31,19 @@
 
 #define 	HTS221_ADDRESS_T0_T1_call_msb		0x35
 
+//*********************HUMIDITY*********************
 
-//#define 	HTS221_ADDRESS_TEMP_L					0x20
+#define 	HTS221_ADDRESS_H_L					0x28
+#define 	HTS221_ADDRESS_H_H					0x29
+
+#define 	HTS221_ADDRESS_H0_rH_x2             0x30
+#define 	HTS221_ADDRESS_H1_rH_x2             0x31
+
+#define 	HTS221_ADDRESS_H0_T0_L				0x36
+#define 	HTS221_ADDRESS_H0_T0_H				0x37
+
+#define 	HTS221_ADDRESS_H1_T0_L				0x3A
+#define 	HTS221_ADDRESS_H1_T0_H				0x3B
 
 uint8_t hts221_init(void);
 //void hts221_get_acc(float* x, float * y, float * z);
