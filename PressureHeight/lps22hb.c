@@ -6,6 +6,7 @@
  */
 
 #include "../PressureHeight/lps22hb.h"
+#include "math.h"
 
 uint8_t lps22hbaddres = LPS22HB_DEVICE_ADDRESS_Read_0;
 
@@ -147,6 +148,25 @@ float lps22hb_get_temperature(){
 
 	return temperature;
 
+}
+float lps22hb_get_altitude(){
+	/*float P=1013.25/tlak;
+	P=pow(P,1/5.257);
+	P=P-1;
+	float T=temperature+273.15;
+	float h=P*T;
+	h=h/0.0065;
+
+	//float altitude=(   (   pow((1013.25/tlak),(1/5.257)) -1) *(temperature+273.15))/0.0065;
+	return h;*/
+
+
+    float P0 = 1013.25;
+    float P1 = lps22hb_get_preassure();
+    float temp = lps22hb_get_temperature();
+    float height = ((pow(P0/P1,1/5.257) - 1)*(temp + 273.15))/0.0065;
+
+    return height;
 }
 uint8_t lps22hb_init(void)
 {

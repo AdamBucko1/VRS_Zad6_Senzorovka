@@ -34,3 +34,4 @@ void lps22hb_write_byte(uint8_t reg_addr, uint8_t value);
 
 float lps22hb_get_preassure(void);
 float lps22hb_get_temperature(void);
+float lps22hb_get_altitude(void);

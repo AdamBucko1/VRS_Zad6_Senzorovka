@@ -34,11 +34,12 @@
 
 uint8_t temp = 0;
 float mag[3], acc[3];
-char formated_text[30], value_x[10], value_y[10], value_z[10];
+char formated_text[70];
 float temperaturePRINT;
 float humidityPRINT;
 float tlakPRINT;
 float temperatureHEIGHT;
+float altitudePRINT;
 void SystemClock_Config(void);
 
 int main(void)
@@ -62,14 +63,17 @@ int main(void)
   {
 	  //os			   x      y        z
 	  temperatureHEIGHT = lps22hb_get_temperature();
-	  temperaturePRINT = hts221_get_temperature();
-	  humidityPRINT=hts221_get_humidity();
 	  tlakPRINT=lps22hb_get_preassure();
 
+	  altitudePRINT=lps22hb_get_altitude();
+	  temperaturePRINT = hts221_get_temperature();
+	  humidityPRINT=hts221_get_humidity();
+
+
 	  memset(formated_text, '\0', sizeof(formated_text));
-	  sprintf(formated_text, "Tlak: %0.4f, Temperature: %0.4f,Humidity: %0.4f\r",tlakPRINT,temperaturePRINT,humidityPRINT );
+	  sprintf(formated_text, "Teplota[°C]: %0.1f, rel. vlhkost [%%]: %0.0f, tlak vzduchu [hPa]: %0.4f, relativna vyska od zeme [m]: %0.2f\r",temperaturePRINT,humidityPRINT,tlakPRINT,altitudePRINT);
 	  USART2_PutBuffer((uint8_t*)formated_text, strlen(formated_text));
-	  LL_mDelay(10);
+	  LL_mDelay(100);
   }
 }
 
