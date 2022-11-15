@@ -113,6 +113,36 @@ float hts221_get_temperature(void)
 
 	}
 
+float hts221_get_humidity(void)
+{
+	uint8_t H0_T0_outArray[2];
+	H0_T0_outArray[0]=hts221_read_byte(HTS221_ADDRESS_H0_T0_L);
+	H0_T0_outArray[1]=hts221_read_byte(HTS221_ADDRESS_H0_T0_H);
+	int16_t H0_T0_out = H0_T0_outArray[0]|H0_T0_outArray[1]<< 8;
+
+	uint8_t H1_T0_outArray[2];
+	H1_T0_outArray[0]=hts221_read_byte(HTS221_ADDRESS_H1_T0_L);
+	H1_T0_outArray[1]=hts221_read_byte(HTS221_ADDRESS_H1_T0_H);
+	int16_t H1_T0_out = H1_T0_outArray[0]|H1_T0_outArray[1]<< 8;
+
+	uint8_t H_T_outArray[2];
+	H_T_outArray[0]=hts221_read_byte(HTS221_ADDRESS_H_L);
+	H_T_outArray[1]=hts221_read_byte(HTS221_ADDRESS_H_H);
+	int16_t H_T_out = H_T_outArray[0]|H_T_outArray[1]<< 8;
+
+	uint8_t H0_RH=hts221_read_byte(HTS221_ADDRESS_H0_rH_x2);
+	uint8_t H1_RH=hts221_read_byte(HTS221_ADDRESS_H1_rH_x2);
+
+	float deltaY=H1_RH-H0_RH;
+	float deltaX=H1_T0_out-H0_T0_out;
+	float k=deltaY/deltaX;
+	float q=H0_RH-k*H0_T0_out;
+	float humidityCalc=k*H_T_out+q;
+	humidityCalc=humidityCalc/2;
+
+	return humidityCalc;
+	}
+
 uint8_t hts221_init(void)
 {
 

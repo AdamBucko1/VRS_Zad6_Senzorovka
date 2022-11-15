@@ -8,7 +8,7 @@
 #include "main.h"
 #include "i2c.h"
 
-//*******************TEMPERATURE********************
+
 #define 	HTS221_DEVICE_ADDRESS_0				0xBE
 #define 	HTS221_DEVICE_ADDRESS_1				0xBF
 
@@ -16,6 +16,8 @@
 #define 	HTS221_WHO_AM_I_ADDRES				0x0F
 
 #define 	HTS221_ADDRESS_CTRL1				0x20
+
+//*******************TEMPERATURE********************
 
 #define 	HTS221_ADDRESS_T_L					0x2A
 #define 	HTS221_ADDRESS_T_H					0x2B
@@ -48,6 +50,7 @@
 uint8_t hts221_init(void);
 //void hts221_get_acc(float* x, float * y, float * z);
 float hts221_get_temperature(void);
+float hts221_get_humidity(void);
 void hts221_get_hum(float* humValue);
 uint8_t hts221_read_byte(uint8_t reg_addr);
 void hts221_write_byte(uint8_t reg_addr, uint8_t value);
