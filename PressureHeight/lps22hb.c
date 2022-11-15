@@ -124,22 +124,30 @@ float lps22hb_get_preassure(){
 	int32_t pressure;
 	uint8_t pressOut[3];
 	float pressureCalc;
-	pressOut[1]=lps22hb_read_byte(LPS22HB_ADDRESS_PRESS_OUT_XL);
-	pressOut[2]=lps22hb_read_byte(LPS22HB_ADDRESS_PRESS_OUT_L);
-	pressOut[3]=lps22hb_read_byte(LPS22HB_ADDRESS_PRESS_OUT_H);
 
-	pressure=pressOut[1]|pressOut[2]<<8;
-	pressure=pressure|pressOut[3]<<16;
-	if (pressure && 1<<23){
-		pressureCalc=-pressure;
-	}
-	else{
+	pressOut[0]=lps22hb_read_byte(LPS22HB_ADDRESS_PRESS_OUT_XL);
+	pressOut[1]=lps22hb_read_byte(LPS22HB_ADDRESS_PRESS_OUT_L);
+	pressOut[2]=lps22hb_read_byte(LPS22HB_ADDRESS_PRESS_OUT_H);
+
+	pressure=pressOut[0]|pressOut[1]<<8;
+	pressure=pressure|pressOut[2]<<16;
+
 	pressureCalc=pressure;
-	}
 	pressureCalc=pressureCalc/4096;
 	return pressureCalc;
-}
 
+}
+float lps22hb_get_temperature(){
+	uint8_t temperatureOut[2];
+	temperatureOut[0]=lps22hb_read_byte(LPS22HB_ADDRESS_TEMP_OUT_L);
+	temperatureOut[1]=lps22hb_read_byte(LPS22HB_ADDRESS_TEMP_OUT_H);
+	float temperature=temperatureOut[0]|(temperatureOut[1]<<8);
+
+	temperature=temperature/100;
+
+	return temperature;
+
+}
 uint8_t lps22hb_init(void)
 {
 

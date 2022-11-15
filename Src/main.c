@@ -38,6 +38,7 @@ char formated_text[30], value_x[10], value_y[10], value_z[10];
 float temperaturePRINT;
 float humidityPRINT;
 float tlakPRINT;
+float temperatureHEIGHT;
 void SystemClock_Config(void);
 
 int main(void)
@@ -55,10 +56,12 @@ int main(void)
   MX_USART2_UART_Init();
 
   hts221_init();
+  lps22hb_init();
 
   while (1)
   {
 	  //os			   x      y        z
+	  temperatureHEIGHT = lps22hb_get_temperature();
 	  temperaturePRINT = hts221_get_temperature();
 	  humidityPRINT=hts221_get_humidity();
 	  tlakPRINT=lps22hb_get_preassure();
