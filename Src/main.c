@@ -25,6 +25,7 @@
 #include "usart.h"
 #include "lis3mdltr.h"
 #include "hts221.h"
+#include "lps22hb.h"
 #include "stdio.h"
 #include "string.h"
 #include "dma.h"
@@ -36,6 +37,7 @@ float mag[3], acc[3];
 char formated_text[30], value_x[10], value_y[10], value_z[10];
 float temperaturePRINT;
 float humidityPRINT;
+float tlakPRINT;
 void SystemClock_Config(void);
 
 int main(void)
@@ -59,8 +61,10 @@ int main(void)
 	  //os			   x      y        z
 	  temperaturePRINT = hts221_get_temperature();
 	  humidityPRINT=hts221_get_humidity();
+	  tlakPRINT=lps22hb_get_preassure();
+
 	  memset(formated_text, '\0', sizeof(formated_text));
-	  sprintf(formated_text, "Temperature: %0.4f,Humidity: %0.4f\r", temperaturePRINT, humidityPRINT);
+	  sprintf(formated_text, "Tlak: %0.4f, Temperature: %0.4f,Humidity: %0.4f\r",tlakPRINT,temperaturePRINT,humidityPRINT );
 	  USART2_PutBuffer((uint8_t*)formated_text, strlen(formated_text));
 	  LL_mDelay(10);
   }
